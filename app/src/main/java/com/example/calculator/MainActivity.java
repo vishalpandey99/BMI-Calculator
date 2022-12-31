@@ -6,32 +6,57 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText edt_text1, edt_text2;
-    private TextView txt_view;
-    private MaterialButton add_btn;
+private EditText edtWeight, edtHeightF, edtHeightIn;
+private Button btnBMI;
+private TextView textResult;
+private LinearLayout linaer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        edt_text1 = findViewById(R.id.edt_text1);
-        edt_text2 = findViewById(R.id.edt_text2);
-        txt_view = findViewById(R.id.txt_view);
-        add_btn = findViewById(R.id.add_btn);
+        edtWeight = findViewById(R.id.edtWeight);
+        edtHeightF = findViewById(R.id.edtHeightF);
+        edtHeightIn = findViewById(R.id.edtHeightIn);
+        btnBMI = findViewById(R.id.btnBMI);
+        textResult = findViewById(R.id.textResult);
+        linaer = findViewById(R.id.linaer);
 
-        add_btn.setOnClickListener(new View.OnClickListener() {
+        btnBMI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int a = Integer.parseInt(edt_text1.getText().toString());
-                int b = Integer.parseInt(edt_text2.getText().toString());
-                int c = a+b;
-                txt_view.setText("Answer Is " + c);
+
+                int weight = Integer.parseInt(edtWeight.getText().toString());
+                int HeightF = Integer.parseInt(edtHeightF.getText().toString());
+                int HeightIn = Integer.parseInt(edtHeightIn.getText().toString());
+
+                int totalInch = HeightF*12+HeightIn;
+                double totalCm = totalInch*2.53;
+                double totalM = totalCm/100;
+                double bmi = weight/(totalM*totalM);
+
+                if (bmi>25){
+
+                    textResult.setText("Your Are Over Weight");
+                    linaer.setBackgroundColor(getResources().getColor(R.color.red));
+                }
+                else if (bmi<18){
+                    textResult.setText("You are Under Weight");
+                    linaer.setBackgroundColor(getResources().getColor(R.color.orange));
+                }
+                else
+                {
+                    textResult.setText("You are Healthy");
+                    linaer.setBackgroundColor(getResources().getColor(R.color.yellow));
+                }
             }
         });
+
     }
 }
